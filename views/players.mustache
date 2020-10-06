@@ -1,0 +1,46 @@
+<html>
+<head>
+
+  {{> header}}
+
+</head>
+
+<body>
+  <h1>Welcome {{playerId}}<h1> 
+
+  <h2>The Players</h2>
+
+  <div class="container">
+
+  {{> menu}}
+
+  <div class="list-group">
+    {{#result}}
+  
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{player_first_name}}     {{player_last_name}}</h5>
+    
+    </div>
+    <p class="mb-1">{{id}}</p>
+
+    <div class="action-button">
+
+    <a href="/users/players/edit/{{id}}">
+      <button type="button" class="btn btn-primary">Edit</button>
+    </a>
+
+    <form action="/users/delete-player" method="POST">
+      <input type="hidden" name="id" value={{id}} />
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>  
+    </div>
+  
+    {{/result}}
+  </div>
+
+</div>
+
+  {{> scripts}}
+
+</body>
+</html>
