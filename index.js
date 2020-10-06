@@ -18,23 +18,29 @@ const session = require("express-session");
 
 const path = require("path");
 
+var connection;
+
 // connect to MySQL DB
-var connection = mysql.createConnection({
-    host: "localhost",
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+    connection = mysql.createConnection({
+        host: "localhost",
 
-    // Your port; if not 3306
-    port: 3306,
+        // Your port; if not 3306
+        port: 3306,
 
-    // Your username
-    user: "root",
+        // Your username
+        user: "root",
 
-    // Your password
-    password: "",
-    database: "footballpooldb",
-});
+        // Your password
+        password: "",
+        database: "footballpooldb",
+    });
+}
 
 connection.connect(function (err) {
-    //    if (err) throw err;
+    if (err) throw err;
     console.log("Connected to the MySQL database!");
 });
 
