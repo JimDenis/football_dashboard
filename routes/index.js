@@ -22,9 +22,16 @@ if (process.env.JAWSDB_URL) {
     });
 }
 
+router.get("/", (req, res) => {
+    console.log("In Root");
+    res.render("root");
+});
+
+/*
 router.get("/hello", (req, res, next) => {
     res.send("Hello Im out here");
 });
+*/
 
 router.get("/register", (req, res) => {
     console.log("In Register");
