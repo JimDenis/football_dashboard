@@ -92,23 +92,6 @@ HashPassWord = (username, password) => {
     });
 };
 
-InsertNewUser = (username, password) => {
-    console.log("in InsertNewUser");
-    bcrypt.hash(password, SALT_ROUNDS, function (error, hash) {
-        if (error == null) {
-            connection.query(
-                "INSERT INTO users (username, pass) VALUES (?)",
-                [[username, hash]],
-                function (err, result) {
-                    if (err) throw err;
-                    console.log("inserted");
-                    //connection.end();
-                }
-            );
-        }
-    });
-};
-
 SelectPassword = (username) => {
     console.log("in SelectPassword");
 
