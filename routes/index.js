@@ -3,6 +3,14 @@ const router = express.Router();
 
 var mysql = require("mysql");
 
+var connection = require("../config/connection");
+
+const bcrypt = require("bcrypt");
+const SALT_ROUNDS = 10;
+
+const session = require("express-session");
+
+/*
 // connect to MySQL DB
 if (process.env.JAWSDB_URL) {
     connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -21,6 +29,7 @@ if (process.env.JAWSDB_URL) {
         database: "footballpooldb",
     });
 }
+*/
 
 router.get("/", (req, res) => {
     console.log("In Root");
@@ -64,8 +73,6 @@ router.post("/register", (req, res) => {
 
     console.log("user name = " + username);
     console.log("password = " + password);
-
-    //res.send("REGISTER");
 });
 
 router.get("/login", (req, res) => {
@@ -74,6 +81,10 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
     console.log("In Login");
+
+    var DBuserId = "";
+    var DBuserName = "";
+
     let username = req.body.username;
     let password = req.body.password;
 
@@ -94,35 +105,38 @@ router.post("/login", (req, res) => {
                         console.log(result[0].username);
                         console.log(result[0].pass);
                         console.log(password);
-                        if (result[0].pass == password) {
-                            console.log("YES");
-                            if (req.session) {
-                                req.session.user = {
-                                    userId: result[0].id,
-                                    username: result[0].username,
-                                };
-                            }
-                            res.redirect("/users/players");
-                        } else {
-                            console.log("NO");
-                            res.render("login", {
-                                message: "Invalid username or password!",
+                        DBuserId = result[0].id;
+                        DBuserName = result[0].username;
+                        if (err == null) {
+                            bcrypt.compare(password, result[0].pass, function (
+                                error,
+                                result
+                            ) {
+                                if (result) {
+                                    console.log("YES");
+                                    if (req.session) {
+                                        req.session.user = {
+                                            //userId: result[0].id,
+                                            //username: result[0].username,
+                                            userId: DBuserId,
+                                            username: DBuserName,
+                                        };
+                                        res.redirect("/users/players");
+                                    }
+                                } else {
+                                    res.render("login", {
+                                        message:
+                                            "Invalid username or password!",
+                                    });
+                                }
                             });
                         }
-                        //bcrypt.compare(result[0].pass, password, function (
-                        //    error,
-                        //    result
-                        //) {
-                        //    console.log(result);
-                        //});
                     }
                 );
-            } else {
-                console.log("YEP");
+            } else
                 res.render("login", {
                     message: "Invalid username or password!",
                 });
-            }
         }
     );
 });
@@ -134,10 +148,27 @@ router.get("/logout", (req, res, next) => {
             if (error) {
                 next(error);
             } else {
-                res.redirect("/login");
+                res.redirect("/");
             }
         });
     }
 });
+
+InsertNewUser = (username, password) => {
+    console.log("in InsertNewUser");
+    bcrypt.hash(password, SALT_ROUNDS, function (error, hash) {
+        if (error == null) {
+            connection.query(
+                "INSERT INTO users (username, pass) VALUES (?)",
+                [[username, hash]],
+                function (err, result) {
+                    if (err) throw err;
+                    console.log("inserted");
+                    //connection.end();
+                }
+            );
+        }
+    });
+};
 
 module.exports = router;

@@ -18,8 +18,9 @@ const session = require("express-session");
 
 const path = require("path");
 
-var connection;
+var connection = require("./config/connection");
 
+/*
 // connect to MySQL DB
 if (process.env.JAWSDB_URL) {
     connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -38,6 +39,7 @@ if (process.env.JAWSDB_URL) {
         database: "footballpooldb",
     });
 }
+*/
 
 connection.connect(function (err) {
     //if (err) throw err;
@@ -76,6 +78,7 @@ app.listen(PORT, () => {
     console.log("Server has started on port ", PORT);
 });
 
+/*
 HashPassWord = (username, password) => {
     console.log("in HashPassWord");
     console.log(password);
@@ -89,25 +92,26 @@ HashPassWord = (username, password) => {
     });
 };
 
-InsertNewUser = (username, hash) => {
+InsertNewUser = (username, password) => {
     console.log("in InsertNewUser");
-    //connection.query(sql, function (err, result) {
-    connection.query(
-        "INSERT INTO users (username, pass) VALUES (?)",
-        [[username, hash]],
-        function (err, result) {
-            if (err) throw err;
-            console.log("inserted");
-            //connection.end();
+    bcrypt.hash(password, SALT_ROUNDS, function (error, hash) {
+        if (error == null) {
+            connection.query(
+                "INSERT INTO users (username, pass) VALUES (?)",
+                [[username, hash]],
+                function (err, result) {
+                    if (err) throw err;
+                    console.log("inserted");
+                    //connection.end();
+                }
+            );
         }
-    );
+    });
 };
 
 SelectPassword = (username) => {
     console.log("in SelectPassword");
-    //const hashFromDB = 22;
-    //return hashFromDB;
-    //connection.query(sql, function (err, result) {
+
     connection.query(
         "SELECT pass FROM users WHERE username = (?)",
         [username],
@@ -119,18 +123,4 @@ SelectPassword = (username) => {
         }
     );
 };
-
-//bcrypt.compare(hashFromDB, password, function (error, result) {
-//    console.log("result =  " + result);
-//    app.get("/register", (req, res) => {
-//        console.log("In Register");
-//        res.render("register");
-//    });
-//return (result = await Promise.resolve);
-//if (!result) {
-//    res.send("SUCCESS");
-//} else {
-//    res.render("login", {
-//        message: "Invalid username or password!",
-//    });
-// }
+*/

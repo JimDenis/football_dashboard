@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 var mysql = require("mysql");
 
+var connection = require("../config/connection");
+
+/*
 // connect to MySQL DB
 if (process.env.JAWSDB_URL) {
     connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -20,6 +23,7 @@ if (process.env.JAWSDB_URL) {
         database: "footballpooldb",
     });
 }
+*/
 
 router.get("/players/", (req, res) => {
     let playerId = req.session.user.username;
