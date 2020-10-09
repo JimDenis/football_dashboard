@@ -3,7 +3,7 @@
 }
 
 #root-buttons {
-    background-color: #4caf50; /* Green */
+    background-color: black;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -11,4 +11,9 @@
     text-decoration: none;
     display: inline-block;
     font-size: 36px;
+}
+
+#root-page {
+    color: white;
+    background-color: blue;
 }

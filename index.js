@@ -56,6 +56,7 @@ app.set("view engine", "mustache");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/css", express.static("css"));
+app.use(express.static("images"));
 
 app.use(
     session({
