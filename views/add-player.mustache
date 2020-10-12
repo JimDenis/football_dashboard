@@ -14,11 +14,20 @@
      {{> menu}}
   
   <form action='/users/add-players' method="POST">
+
   <div class="form-group">
-    <label for="exampleInputEmail1">Player Active</label>
-    <input type="text" name="PlayerActive" class="form-control" placeholder="Player Active ??">
+    <label for="exampleFormControlSelect1">Player Active</label>
+    <select class="form-control" name="PlayerActive" id="exampleFormControlSelect1">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
   </div>
 
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email address</label>
+    <input type="email" class="form-control" name="PlayerEmail" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div>
+  
   <div class="form-group">
     <label for="exampleInputPassword1">First Name</label>
     <input type="text" name="FirstName" class="form-control" placeholder="Enter First Name">

@@ -14,19 +14,45 @@
      {{> menu}}
   
   <form action='/users/edit-players' method="POST">
+
+  {{^player_active}}
+
+    <h2>Player is NOT active</h2> 
+
+  {{/player_active}}
+
+  {{#player_active}}
+
+    <h2>Player is active</h2> 
+
+  {{/player_active}}
+
   <div class="form-group">
-    <label for="exampleInputEmail1">Player Active</label>
-    <input type="text" name="PlayerActive" value={{player_active}} class="form-control" placeholder="Player Active ??">
+    <label for="exampleFormControlSelect1">Player Active</label>
+    <select class="form-control" name="PlayerActive" option={{player_active}} id="exampleFormControlSelect1">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email address</label>
+    <input type="email" name="PlayerEmail" class="form-control" placeholder="name@example.com" value={{player_email}}>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Player Active 2</label>
+    <input type="text" name="PlayerActive2" class="form-control" placeholder="Player Active 2 ??" value={{player_active}} >
   </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">First Name</label>
-    <input type="text" name="FirstName" value={{player_first_name}} class="form-control" placeholder="Enter First Name">
+    <input type="text" name="FirstName" class="form-control" placeholder="Enter First Name" value={{player_first_name}}>
   </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">Last Name</label>
-    <input type="text" name="LastName" value={{player_last_name}} class="form-control">
+    <input type="text" name="LastName" class="form-control" value={{player_last_name}}>
   </div>
 
   <input type="hidden" name="playerId" value="{{id}}" >
